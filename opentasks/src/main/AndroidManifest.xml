@@ -64,7 +64,7 @@
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value="org.dmfs.tasks.TaskListActivity"/>
-
+            <!-- intent filter for who can open us, only this has mimeType:"vnd.android.cursor.item/org.dmfs.tasks.tasks" -->
             <intent-filter android:label="@string/activity_edit_task_title">
                 <action android:name="android.intent.action.EDIT"/>
 
@@ -103,6 +103,7 @@
                         android:host="@string/opentasks_authority"
                         android:mimeType="vnd.android.cursor.dir/org.dmfs.tasks.tasks"/>
             </intent-filter>
+                <!--intent filter for action: INSERT_OR_EDIT-->
             <intent-filter android:label="@string/activity_add_task_title">
                 <action android:name="android.intent.action.INSERT_OR_EDIT"/>
 
