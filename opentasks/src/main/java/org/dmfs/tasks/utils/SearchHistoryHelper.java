@@ -57,6 +57,7 @@ public class SearchHistoryHelper
      */
     public Cursor getSearchHistory()
     {
+        //tt: now u know order by can be two order: 1x 2y, here is 1_id and 2desc
         return mDb.query(SearchHistoryDatabaseHelper.SEARCH_HISTORY_TABLE, null, null, null, null, null, SearchHistoryColumns._ID + " desc");
     }
 
@@ -70,10 +71,17 @@ public class SearchHistoryHelper
     public void updateSearch(String query)
     {
         ContentValues values = new ContentValues(1);
+                                                                    //k: "query",v: query from in param
         values.put(SearchHistoryDatabaseHelper.SearchHistoryColumns.SEARCH_QUERY, query);
         values.put(SearchHistoryDatabaseHelper.SearchHistoryColumns.TIMESTAMP, System.currentTimeMillis());
+        //tt: if we have a value in db, ok, update it; so how do we check if already in?
+        // A: the param whereClause is SQLite's WHERE's value. so it like:
+        // sqlite> UPDATE SEARCH_HISTORY_TABLE SET SEARCH_QUERY = 'myTask1', TIMESTAMP = '1500789922' WHERE historic = 0;
+        // !!!! newest: `update()` return the number of rows affected, so, in this if clause, if we find
+        // !!!!         0 row affected, which means we can't find this row, then we create it by `insert()`
         if (mDb.update(SearchHistoryDatabaseHelper.SEARCH_HISTORY_TABLE, values, SearchHistoryColumns.HISTORIC + "=0", null) == 0)
         {
+            //tt: once update return 0, means no rows(where historic=0) exist, so we need insert.
             mDb.insert(SearchHistoryDatabaseHelper.SEARCH_HISTORY_TABLE, "", values);
         }
     }

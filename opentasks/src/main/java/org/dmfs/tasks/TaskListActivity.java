@@ -321,22 +321,24 @@ public class TaskListActivity extends BaseActivity implements TaskListFragment.C
 
                 if (newPageId == R.id.task_group_search)
                 {
-                    int oldPageId = mCurrentPageId;
-                    mCurrentPageId = newPageId;
+                    int oldPageId = mCurrentPageId;//tt: now old id is really id before search
+                    mCurrentPageId = newPageId;    //tt: now the old id is replaced by search page id.
 
                     // store the page position we're coming from
                     mPreviousPagePosition = mPagerAdapter.getPagePosition(oldPageId);
                 }
+                //tt: so how can we already been search tab?
+                //tt: A: eg: when we really are in search tab, and then we want to goto task progress/priority
                 else if (mCurrentPageId == R.id.task_group_search)
                 {
                     // we've been on the search page before, so commit the search and close the search view
                     mSearchHistoryHelper.commitSearch();
                     mHandler.post(mSearchUpdater);
                     mCurrentPageId = newPageId;
-                    hideSearchActionView();
+                    hideSearchActionView();//tt: once we wanna goto other tab view, we should hide search bar.
                 }
                 mCurrentPageId = newPageId;
-                updateTitle(mCurrentPageId);
+                updateTitle(mCurrentPageId);//tt: fuck, no id deal logic in `updateTitle()`
             }
 
 
@@ -586,12 +588,14 @@ public class TaskListActivity extends BaseActivity implements TaskListFragment.C
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.task_list_activity_menu, menu);
 
-        MenuItem addItem = menu.findItem(R.id.menu_add_task);
+/*        MenuItem addItem = menu.findItem(R.id.menu_add_task);
         if (addItem != null && mFloatingActionButton != null)
         {
             // hide menu option to add a task if we have a floating action button
             addItem.setVisible(false);
-        }
+        }*/
+
+
 
         // search
         setupSearch(menu);

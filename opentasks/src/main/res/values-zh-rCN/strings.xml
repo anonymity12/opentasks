@@ -16,7 +16,7 @@
   -->
 
 <resources>
-    <string name="app_name">OpenTasks</string>
+    <string name="app_name">积累for妞妞</string>
     <string name="menu_add_task">添加任务</string>
     <string name="menu_add_task_condensed">添加</string>
     <string name="menu_show_completed">显示已完成任务</string>
@@ -66,7 +66,7 @@
     <string name="task_url">URL链接</string>
     <string name="task_classification">隐私</string>
     <string name="title_task_detail">任务 详细</string>
-    <string name="title_task_list">待办事项</string>
+    <string name="title_task_list">待办破事</string>
     <string name="task_detail_activity">任务 详细</string>
     <string name="task_priority">优先度</string>
     <string name="task_timezone">时区</string>

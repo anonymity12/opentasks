@@ -90,7 +90,7 @@ public class TaskListFragment extends SupportFragment
     private final static String ARG_INSTANCE_ID = "instance_id";
     private final static String ARG_TWO_PANE_LAYOUT = "two_pane_layout";
 
-    private static final long INTERVAL_LISTVIEW_REDRAW = 60000;
+    private static final long INTERVAL_LISTVIEW_REDRAW = 60000;//tt: one min
 
     /**
      * A filter to hide completed tasks.
@@ -113,9 +113,9 @@ public class TaskListFragment extends SupportFragment
     @Retain(permanent = true, instanceNSField = "mInstancePosition")
     private int mActivatedPositionChild = ExpandableListView.INVALID_POSITION;
 
-    private RetainExpandableListView mExpandableListView;
+    private RetainExpandableListView mExpandableListView;//tt: key!
     private Context mAppContext;
-    private ExpandableGroupDescriptorAdapter mAdapter;
+    private ExpandableGroupDescriptorAdapter mAdapter;//tt: key!
     private Handler mHandler;
     @Retain(permanent = true, instanceNSField = "mInstancePosition")
     private long[] mSavedExpandedGroups = null;
@@ -504,7 +504,7 @@ public class TaskListFragment extends SupportFragment
             {
                 // Notify the active callbacks interface (the activity, if the fragment is attached to one) that an item has been selected.
 
-                // TODO: use the instance URI one we support recurrence
+                // TODO: use the instance URI once we support recurrence
                 Uri taskUri = ContentUris.withAppendedId(Tasks.getContentUri(mAuthority), selectTaskId);
 
                 mCallbacks.onItemSelected(taskUri, force, mInstancePosition);
@@ -588,16 +588,16 @@ public class TaskListFragment extends SupportFragment
                         // nothing to do here
                     }
                 }).setPositiveButton(android.R.string.ok, new OnClickListener()
-        {
-            @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
-                // TODO: remove the task in a background task
-                mAppContext.getContentResolver().delete(taskUri, null, null);
-                Snackbar.make(mExpandableListView, getString(R.string.toast_task_deleted, taskTitle), Snackbar.LENGTH_SHORT).show();
-                mCallbacks.onItemSelected(null, false, -1);
-            }
-        }).setMessage(getString(R.string.confirm_delete_message_with_title, taskTitle)).create().show();
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        // TODO: remove the task in a background task
+                        mAppContext.getContentResolver().delete(taskUri, null, null);
+                        Snackbar.make(mExpandableListView, getString(R.string.toast_task_deleted, taskTitle), Snackbar.LENGTH_SHORT).show();
+                        mCallbacks.onItemSelected(null, false, -1);
+                    }
+                }).setMessage(getString(R.string.confirm_delete_message_with_title, taskTitle)).create().show();
     }
 
 
@@ -862,7 +862,7 @@ public class TaskListFragment extends SupportFragment
         values.put(Tasks.STATUS, completedValue ? Tasks.STATUS_COMPLETED : Tasks.STATUS_IN_PROCESS);
         if (!completedValue)
         {
-            values.put(Tasks.PERCENT_COMPLETE, 50);
+            values.put(Tasks.PERCENT_COMPLETE, 50);//tt: 未完成置位50
         }
 
         boolean completed = mAppContext.getContentResolver().update(taskUri, values, null, null) != 0;
@@ -963,7 +963,7 @@ public class TaskListFragment extends SupportFragment
         }
     }
 
-
+    //tt: async task最终会调用此函数，针对位置进行打开
     public void openSelectedChild()
     {
         if (mSelectedChildPosition != null)
